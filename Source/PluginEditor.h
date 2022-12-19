@@ -40,6 +40,7 @@ private:
     MercyLookAndFeel mercyLookAndFeel;
     TitleComponent titleComponent;
     juce::Label descLabel, dbLevelMeterLeft, dbLevelMeterRight;
+    juce::Font pluginFont;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MercyAudioProcessorEditor)
 };

@@ -58,8 +58,6 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
 * through the projucer then the BinaryData will be auto generated.
 */
     juce::Font titleFont = juce::Typeface::createSystemTypefaceFor(BinaryData::MOTOR__PERSONAL_USE_ONLY_TTF, BinaryData::MOTOR__PERSONAL_USE_ONLY_TTFSize);
-    
-    descLabel.setFont(titleFont);
     titleComponent.setFont(titleFont);
 
     addMouseListener(this, true);
@@ -78,7 +76,6 @@ void MercyAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.setColour (juce::Colours::white);
-
     g.setColour(juce::Colours::green);
 }
 
@@ -128,12 +125,12 @@ void MercyAudioProcessorEditor::resized()
     lpfResoSlider.setBounds(lpfResoSliderBounds);
     hpfCutoffSlider.setBounds(hpfCutoffSliderBounds);
     hpfResoSlider.setBounds(hpfResoSliderBounds);
+    descLabel.setBounds(labelBounds);
 
     gainSlider.setBounds(gainSliderBounds.toNearestInt());
+
     dbLevelMeterLeft.setBounds(dbLevelMeterLeftBounds.toNearestInt());
     dbLevelMeterRight.setBounds(dbLevelMeterRightBounds.toNearestInt());
-
-    descLabel.setBounds(labelBounds);
 
     titleComponent.setBounds(titleComponentRect);
 }
