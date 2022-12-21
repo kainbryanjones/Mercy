@@ -8,3 +8,10 @@ which supports exporting projects for Xcode (macOS and iOS), Visual Studio, Andr
 Code::Blocks and Linux Makefiles as well as containing a source code editor.
 
 ## Mercy
+
+Mercy is an audio plugin created using the JUCE framework. It is intended to be used as an example
+to learn the JUCE framework. Mercy covers everything from UI building to JUCE's dsp library. 
+
+Mercy is not intended to cover basic c++ topics and a basic understanding of c++ fundamentals is assumed.
+Mercy also does not cover advanced digital signal processing mathematics or anything outside the scope
+of how to build a basic plugin.
