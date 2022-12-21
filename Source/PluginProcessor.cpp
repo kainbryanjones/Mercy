@@ -38,6 +38,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 	const float lpfResoDefaultValue = resoRange.getRange().getStart();
 	const float hpfResoDefaultValue = resoRange.getRange().getStart();
 
+	const auto gainRange = juce::NormalisableRange<float>{ -6 * 8.f, 0.f, 0.1f };
+
 	layout.add(std::make_unique<juce::AudioParameterFloat>(
 		juce::ParameterID{ ParamIDs::lpfCutoff,1 },
 		ParamIDs::lpfCutoff,
@@ -70,7 +72,20 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 		juce::String(),
 		juce::AudioProcessorParameter::genericParameter));
 
-	return layout;
+	layout.add(std::make_unique<juce::AudioParameterFloat>(
+		juce::ParameterID{ ParamIDs::gain,1 },
+		ParamIDs::gain,
+		gainRange,
+		-6.f,
+		juce::String(),
+		juce::AudioProcessorParameter::genericParameter));
+
+	layout.add(std::make_unique<juce::AudioParameterBool>(
+		juce::ParameterID{ ParamIDs::bypass,1 },
+		ParamIDs::bypass,
+		false));
+
+		return layout;
 }
 
 MercyAudioProcessor::~MercyAudioProcessor()
@@ -202,8 +217,10 @@ void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
 	auto hpfCutoff = apvts.getRawParameterValue(ParamIDs::hpfCutoff)->load();
 	auto hpfReso = apvts.getRawParameterValue(ParamIDs::hpfReso)->load();
 
-	auto sampleRate = getSampleRate();
+	auto gain = apvts.getRawParameterValue(ParamIDs::gain)->load();
+	auto bypass = apvts.getRawParameterValue(ParamIDs::bypass)->load();
 
+	auto sampleRate = getSampleRate();
 	*lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, lpfCutoff, lpfReso);
 	*highPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, hpfCutoff, hpfReso);
 
@@ -216,11 +233,16 @@ void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
 		buffer.clear(i, 0, buffer.getNumSamples());
 
-	juce::dsp::AudioBlock<float> audioBlock(buffer);
-	juce::dsp::ProcessContextReplacing<float> ctx(audioBlock);
+	if (!bypass) {
+		juce::dsp::AudioBlock<float> audioBlock(buffer);
+		juce::dsp::ProcessContextReplacing<float> ctx(audioBlock);
 
-	highPassFilter.process(ctx);
-	lowPassFilter.process(ctx);
+		highPassFilter.process(ctx);
+		lowPassFilter.process(ctx);
+
+		audioBlock.multiplyBy(gain);
+	}
+
 
 }
 

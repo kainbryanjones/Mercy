@@ -44,10 +44,11 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
     hpfCutoffSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 
     hpfResoSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    hpfResoSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
+    hpfResoSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, true, 0, 0);
 
     gainSlider.setSliderStyle(juce::Slider::LinearBarVertical);
-    gainSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
+    gainSlider.setTextValueSuffix("dB");
+    //gainSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 
     /*
 * Custom font is stored as a .TTF file in the /assets/font folder.
@@ -63,6 +64,8 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
 
     hpfCutoffSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, ParamIDs::hpfCutoff, hpfCutoffSlider);
     hpfResoSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, ParamIDs::hpfReso, hpfResoSlider);
+
+    gainSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, ParamIDs::gain, gainSlider);
 
     addMouseListener(this, true);
     setResizable(true, true);
