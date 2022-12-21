@@ -240,7 +240,13 @@ void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
 		highPassFilter.process(ctx);
 		lowPassFilter.process(ctx);
 
-		audioBlock.multiplyBy(gain);
+		for (auto channel = 0; channel < buffer.getNumChannels(); channel++) {
+			for (auto sample = 0; sample < buffer.getNumSamples(); sample++) {
+				auto newSampleValue = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain(gain,-6*8.f);
+				buffer.setSample(channel, sample, newSampleValue);
+			}
+		}
+
 	}
 
 

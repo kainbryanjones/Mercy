@@ -10,9 +10,9 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
-    : AudioProcessorEditor(&p), audioProcessor(p), titleComponent(juce::String("www.halogensband.com"), juce::URL("www.halogensband.com")){
-    
+MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
+    : AudioProcessorEditor(&p), audioProcessor(p), titleComponent(juce::String("www.halogensband.com"), juce::URL("www.halogensband.com")) {
+
     setLookAndFeel(&mercyLookAndFeel);
 
     titleComponent.setDescription(juce::String("Visit our website!"));
@@ -31,11 +31,11 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
     addAndMakeVisible(dbLevelMeterLeft);
     dbLevelMeterRight.setDescription(juce::String());
     addAndMakeVisible(dbLevelMeterRight);
-    descLabel.setText("MERCY",juce::dontSendNotification);
+    descLabel.setText("MERCY", juce::dontSendNotification);
     addAndMakeVisible(descLabel);
 
     lpfCutoffSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    lpfCutoffSlider.setTextBoxStyle(juce::Slider::NoTextBox,true,0,0);
+    lpfCutoffSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 
     lpfResoSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     lpfResoSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
@@ -47,7 +47,7 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
     hpfResoSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, true, 0, 0);
 
     gainSlider.setSliderStyle(juce::Slider::LinearBarVertical);
-    gainSlider.setTextValueSuffix("dB");
+
     //gainSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 
     /*
@@ -66,6 +66,14 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor (MercyAudioProcessor& p)
     hpfResoSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, ParamIDs::hpfReso, hpfResoSlider);
 
     gainSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, ParamIDs::gain, gainSlider);
+    gainSlider.textFromValueFunction = [](double value) {
+        auto textFromValue = juce::String();
+        auto minusInfGain = -6 * 8.f;
+        value <= minusInfGain ? textFromValue.append("-INF ", juce::String("-INF ").length()) : textFromValue.append(juce::String(value), juce::String(value).length());
+        return textFromValue;
+    };
+    gainSlider.setTextValueSuffix("dB");
+    gainSlider.updateText();
 
     addMouseListener(this, true);
     setResizable(true, true);
