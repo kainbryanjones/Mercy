@@ -34,13 +34,20 @@ private:
     // access the processor object that created it.
     MercyAudioProcessor& audioProcessor;
 
-    juce::Slider lpfCutoffSlider, hpfCutoffSlider, lpfResoSlider, hpfResoSlider, gainSlider;
-    //juce::SliderParameterAttachment lpfCutoffSliderAttatchment, hpfCutoffSliderAttatchment, lpfResoSliderAttatchment, hpfResoSliderAttatchment, gainSliderAttatchment;
-
-    MercyLookAndFeel mercyLookAndFeel;
-    TitleComponent titleComponent;
     juce::Label descLabel, dbLevelMeterLeft, dbLevelMeterRight;
     juce::Font pluginFont;
+
+    juce::Slider lpfCutoffSlider, hpfCutoffSlider, lpfResoSlider, hpfResoSlider, gainSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lpfCutoffSliderAttatchment, hpfCutoffSliderAttatchment, lpfResoSliderAttatchment, hpfResoSliderAttatchment, gainSliderAttatchment;
+
+    juce::ToggleButton bypassButton;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> bypassButtonAttatchment;
+
+    MercyLookAndFeel mercyLookAndFeel;
+
+    TitleComponent titleComponent;
+
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MercyAudioProcessorEditor)
 };

@@ -3,6 +3,9 @@
 <JUCERPROJECT id="JaQWNK" name="Mercy" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="CNeqes" name="Mercy">
+    <GROUP id="{AAEBBC95-1B90-08C3-5A04-CD5B088FD99E}" name="util">
+      <FILE id="mUXGK3" name="ParamIds.h" compile="0" resource="0" file="Source/ParamIds.h"/>
+    </GROUP>
     <GROUP id="{50F0BA99-070A-A11D-AC9E-3ECE114D5763}" name="lookandfeel">
       <FILE id="rLbqu4" name="MercyLookAndFeel.cpp" compile="1" resource="0"
             file="Source/MercyLookAndFeel.cpp"/>
