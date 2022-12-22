@@ -17,7 +17,7 @@
 //==============================================================================
 /**
 */
-class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor
+class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener
 {
 public:
     MercyAudioProcessorEditor (MercyAudioProcessor&);
@@ -28,13 +28,19 @@ public:
     void resized() override;
 
     void mouseEnter(const juce::MouseEvent& event) override;
+    void mouseExit(const juce::MouseEvent& event) override;
+
+    void sliderValueChanged(juce::Slider*) override;
+    void sliderDragStarted(juce::Slider*) override;
+    void sliderDragEnded(juce::Slider*) override;
+
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MercyAudioProcessor& audioProcessor;
 
-    juce::Label descLabel, dbLevelMeterLeft, dbLevelMeterRight;
+    juce::Label descLabel, valueLabel, dbLevelMeterLeft, dbLevelMeterRight;
     juce::Font pluginFont;
 
     juce::Slider lpfCutoffSlider, hpfCutoffSlider, lpfResoSlider, hpfResoSlider, gainSlider;
