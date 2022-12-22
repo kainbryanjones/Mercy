@@ -38,7 +38,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 	const float lpfResoDefaultValue = resoRange.getRange().getStart();
 	const float hpfResoDefaultValue = resoRange.getRange().getStart();
 
-	const auto gainRange = juce::NormalisableRange<float>{ -6 * 8.f, 0.f, 0.1f };
+	const auto gainRange = juce::NormalisableRange<float>{ -6 * 8.f, +6*4.f, 0.1f };
 
 	layout.add(std::make_unique<juce::AudioParameterFloat>(
 		juce::ParameterID{ ParamIDs::lpfCutoff,1 },
