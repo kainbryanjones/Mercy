@@ -32,10 +32,10 @@ It would also help to have some basic digital signal processing knowledge.
 * The AudioProcessorValueTreeState Class
 * The LinearSmoothedValue Class
 * The LookAndFeel Class
+* Using Git With JUCE
 
 # Tutorials
-
-
+Mercy will be accompanied by a series of tutorials on my band's blog
 
 # Footnote
 If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
