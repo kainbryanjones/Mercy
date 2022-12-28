@@ -21,12 +21,13 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	hpfCutoffSlider.setDescription(juce::String("High Pass Filter Cutoff"));
 	hpfResoSlider.setDescription(juce::String("High Pass Filter Resonance"));
 	gainSlider.setDescription(juce::String("Gain Control"));
-	dbLevelMeterLeft.setDescription(juce::String("Left Channel Gain"));
-	dbLevelMeterRight.setDescription(juce::String("Right Channel Gain"));
+	levelMeter.setDescription(juce::String("Decibel Level Meter"));
 	bypassButton.setDescription(juce::String("Bypass dsp"));
 
 	descLabel.setText("MERCY", juce::dontSendNotification);
-	
+	descLabel.setFont(pluginFont);
+	valueLabel.setFont(pluginFont);
+
 	descLabel.setJustificationType(juce::Justification::centred);
 	valueLabel.setJustificationType(juce::Justification::centred);
 
@@ -36,8 +37,7 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	addAndMakeVisible(hpfCutoffSlider);
 	addAndMakeVisible(hpfResoSlider);
 	addAndMakeVisible(gainSlider);
-	addAndMakeVisible(dbLevelMeterLeft);
-	addAndMakeVisible(dbLevelMeterRight);
+	addAndMakeVisible(levelMeter);
 	addAndMakeVisible(valueLabel);
 	addAndMakeVisible(descLabel);
 	addAndMakeVisible(bypassButton);
@@ -78,13 +78,17 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 
 	bypassButtonAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, ParamIDs::bypass, bypassButton);
 
-	gainSlider.textFromValueFunction = [](double value) {
+	std::function gainSliderTextFromValueFunction = [](double value) {
 		auto textFromValue = juce::String();
 		auto minusInfGain = -6 * 8.f;
+
 		if (value >= 0.f) textFromValue.append(juce::String("+"), juce::String("+").length());
 		value <= minusInfGain ? textFromValue.append("-INF ", juce::String("-INF ").length()) : textFromValue.append(juce::String(value), juce::String(value).length());
+		
 		return textFromValue;
 	};
+
+	gainSlider.textFromValueFunction = gainSliderTextFromValueFunction;
 
 	lpfCutoffSlider.setTextValueSuffix("Hz");
 	hpfCutoffSlider.setTextValueSuffix("Hz");
@@ -92,9 +96,20 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	gainSlider.setTextValueSuffix("dB");
 	gainSlider.updateText();
 
+	startTimerHz(24);
+
 	addMouseListener(this, true);
+
+	auto minWidth = 400;
+	auto minHeight = 200;
+	auto maxWidth = minWidth * 2;
+	auto maxHeight = minHeight * 2;
+	auto ratio = float(minWidth / minHeight);
+
+	getConstrainer()->setSizeLimits(minWidth, minHeight, maxWidth, maxHeight);
+	getConstrainer()->setFixedAspectRatio(ratio);
 	setResizable(true, true);
-	setSize(400, 300);
+	setSize(minWidth, minHeight);
 }
 
 MercyAudioProcessorEditor::~MercyAudioProcessorEditor()
@@ -137,11 +152,7 @@ void MercyAudioProcessorEditor::resized()
 	auto labelBounds = filterAndLabelBounds;
 
 	auto gainSliderBounds = area.removeFromLeft(area.getWidth() / 2).toFloat();
-	auto dbLevelMeterAndBypassButtonBounds = area.toFloat();
-
-	auto bypassButtonBounds = dbLevelMeterAndBypassButtonBounds.removeFromBottom(dbLevelMeterAndBypassButtonBounds.getHeight() / 10.f);
-	auto dbLevelMeterLeftBounds = dbLevelMeterAndBypassButtonBounds.removeFromLeft(dbLevelMeterAndBypassButtonBounds.getWidth() / 2);
-	auto dbLevelMeterRightBounds = dbLevelMeterAndBypassButtonBounds.toFloat();
+	auto dbLevelMeterBounds = area.toFloat();
 
 	auto parameterSliderHeight = filterParameterBounds.getHeight() / 2;
 	auto parameterSliderWidth = filterParameterBounds.getWidth() / 2;
@@ -167,9 +178,8 @@ void MercyAudioProcessorEditor::resized()
 
 	gainSlider.setBounds(gainSliderBounds.toNearestInt().reduced(gainSliderBounds.getWidth() / 8.f, 0.f));
 
-	bypassButton.setBounds(bypassButtonBounds.toNearestInt());
-	dbLevelMeterLeft.setBounds(dbLevelMeterLeftBounds.toNearestInt());
-	dbLevelMeterRight.setBounds(dbLevelMeterRightBounds.toNearestInt());
+	//bypassButton.setBounds(bypassButtonBounds.toNearestInt());
+	levelMeter.setBounds(dbLevelMeterBounds.toNearestInt());
 
 	titleComponent.setBounds(titleComponentRect);
 }
@@ -210,4 +220,12 @@ void MercyAudioProcessorEditor::sliderDragEnded(Slider* slider)
 {
 	valueLabel.setText("", juce::dontSendNotification);
 	valueLabel.repaint();
+}
+
+void MercyAudioProcessorEditor::timerCallback()
+{
+	auto leftRMS = audioProcessor.getRMSLevel(0);
+	auto rightRMS = audioProcessor.getRMSLevel(1);
+
+	levelMeter.setLevelsAndRepaint(leftRMS, rightRMS);
 }

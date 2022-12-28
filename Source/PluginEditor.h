@@ -11,13 +11,14 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
+#include "StereoLevelMeterComponent.h"
 #include "TitleComponent.h"
 #include "MercyLookAndFeel.h"
 
 //==============================================================================
 /**
 */
-class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener
+class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener, juce::Timer
 {
 public:
     MercyAudioProcessorEditor (MercyAudioProcessor&);
@@ -40,7 +41,7 @@ private:
     // access the processor object that created it.
     MercyAudioProcessor& audioProcessor;
 
-    juce::Label descLabel, valueLabel, dbLevelMeterLeft, dbLevelMeterRight;
+    juce::Label descLabel, valueLabel;
     juce::Font pluginFont;
 
     juce::Slider lpfCutoffSlider, hpfCutoffSlider, lpfResoSlider, hpfResoSlider, gainSlider;
@@ -49,11 +50,15 @@ private:
     juce::ToggleButton bypassButton;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> bypassButtonAttatchment;
 
-    MercyLookAndFeel mercyLookAndFeel;
+   std::unique_ptr <juce::ComponentBoundsConstrainer> contstrainer;
 
+    MercyLookAndFeel mercyLookAndFeel;
+    
+    StereoLevelMeterComponent levelMeter;
     TitleComponent titleComponent;
 
-
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MercyAudioProcessorEditor)
+
+        // Inherited via Timer
+        virtual void timerCallback() override;
 };
