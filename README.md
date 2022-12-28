@@ -7,6 +7,10 @@ be used as a project generation tool via the [Projucer](https://juce.com/discove
 which supports exporting projects for Xcode (macOS and iOS), Visual Studio, Android Studio,
 Code::Blocks and Linux Makefiles as well as containing a source code editor.
 
+# Disclaimer
+Mercy is currently a work in progress and I intend to have it finish by early January 2023. I will
+remove this disclaimer once I am happy that the project is the best it can be.
+
 # Mercy
 Mercy is an audio plugin created using the JUCE framework. It is intended to be used as an example
 to learn the JUCE framework. Mercy covers everything from UI building to JUCE's dsp library. 
@@ -22,12 +26,16 @@ It would also help to have some basic digital signal processing knowledge.
 * JUCE DSP modules
 * The Component Class
 * Building Custom Components
-* Graphics
+* The Graphics Class
 * The Rectangle Class
 * Listeners and Broadcasters
-* The AudioProcessorValueTreeState Class and audio parameters
-* Smoothed Values
-* LookAndFeel
+* The AudioProcessorValueTreeState Class
+* The LinearSmoothedValue Class
+* The LookAndFeel Class
+
+# Tutorials
+
+
 
 # Footnote
 If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
