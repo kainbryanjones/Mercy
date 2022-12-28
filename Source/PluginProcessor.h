@@ -60,6 +60,9 @@ public:
 	juce::AudioProcessorValueTreeState apvts;
 	juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
+	juce::Array<float> rmsLevels;
+	float getRMSLevel(const int channel) const;
+
 private:
 	//==============================================================================
 
@@ -75,6 +78,9 @@ private:
 
 	juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>,juce::dsp::IIR::Coefficients<float>> lowPassFilter;
 	juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> highPassFilter;
+
+	float rmsLevelLeft, rmsLevelRight;
+	juce::LinearSmoothedValue<float> smoothedLevelLeft, smoothedLevelRight;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MercyAudioProcessor)
 };

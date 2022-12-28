@@ -38,7 +38,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 	const float lpfResoDefaultValue = resoRange.getRange().getStart();
 	const float hpfResoDefaultValue = resoRange.getRange().getStart();
 
-	const auto gainRange = juce::NormalisableRange<float>{ -6 * 8.f, +6*4.f, 0.1f };
+	const auto gainRange = juce::NormalisableRange<float>{ -6 * 8.f, +6 * 4.f, 0.1f };
 
 	layout.add(std::make_unique<juce::AudioParameterFloat>(
 		juce::ParameterID{ ParamIDs::lpfCutoff,1 },
@@ -85,7 +85,20 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 		ParamIDs::bypass,
 		false));
 
-		return layout;
+	return layout;
+}
+
+float MercyAudioProcessor::getRMSLevel(const int channel) const
+{
+	jassert(channel == 0 || channel == 1);
+
+	if (channel == 0) {
+		return smoothedLevelLeft.getCurrentValue();
+	}
+	if (channel == 1) {
+		return smoothedLevelRight.getCurrentValue();
+	}
+	return 0.f;
 }
 
 MercyAudioProcessor::~MercyAudioProcessor()
@@ -171,6 +184,14 @@ void MercyAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 
 	highPassFilter.prepare(spec);
 	highPassFilter.reset();
+
+	auto smoothingTime = 0.3f;
+	auto defaultValue = 0.f;
+	smoothedLevelLeft.reset(sampleRate, smoothingTime);
+	smoothedLevelRight.reset(sampleRate, smoothingTime);
+
+	smoothedLevelLeft.setCurrentAndTargetValue(defaultValue);
+	smoothedLevelRight.setCurrentAndTargetValue(defaultValue);
 }
 
 void MercyAudioProcessor::releaseResources()
@@ -208,6 +229,10 @@ bool MercyAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) con
 void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
 	juce::ScopedNoDenormals noDenormals;
+
+	smoothedLevelLeft.skip(buffer.getNumSamples());
+	smoothedLevelRight.skip(buffer.getNumSamples());
+
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
 
@@ -242,12 +267,31 @@ void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
 
 		for (auto channel = 0; channel < buffer.getNumChannels(); channel++) {
 			for (auto sample = 0; sample < buffer.getNumSamples(); sample++) {
-				auto newSampleValue = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain(gain,-6*8.f);
+				auto newSampleValue = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain(gain, -6 * 8.f);
 				buffer.setSample(channel, sample, newSampleValue);
 			}
 		}
-
 	}
+
+		auto leftChannelIndex = 0;
+		auto rightChannelIndex = 1;
+		auto startSample = 0;
+		auto numSamples = buffer.getNumSamples();
+
+		rmsLevelLeft = juce::Decibels::gainToDecibels(buffer.getRMSLevel(leftChannelIndex, startSample, numSamples));
+		rmsLevelRight = juce::Decibels::gainToDecibels(buffer.getRMSLevel(rightChannelIndex, startSample, numSamples));
+
+		if (rmsLevelLeft < smoothedLevelLeft.getCurrentValue())
+			smoothedLevelLeft.setTargetValue(rmsLevelLeft);
+		else
+			smoothedLevelLeft.setCurrentAndTargetValue(rmsLevelLeft);
+
+
+		if (rmsLevelRight < smoothedLevelRight.getCurrentValue())
+			smoothedLevelRight.setTargetValue(rmsLevelRight);
+		else
+			smoothedLevelRight.setCurrentAndTargetValue(rmsLevelRight);
+
 
 
 }

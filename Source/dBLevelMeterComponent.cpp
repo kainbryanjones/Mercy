@@ -16,31 +16,52 @@ dBLevelMeterComponent::dBLevelMeterComponent()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-
 }
 
 dBLevelMeterComponent::~dBLevelMeterComponent()
 {
 }
 
+void dBLevelMeterComponent::setLevelAndRepaint(float level) {
+    this->level = level;
+    repaint();
+}
+
+void dBLevelMeterComponent::paintGridOverComponent(juce::Graphics& g)
+{
+    auto numGridRects = 12.f;
+    auto gridRectHeight = getLocalBounds().getHeight() / numGridRects;
+
+    auto bottomLeft = getLocalBounds().getBottomLeft();
+
+
+    for (auto i = 0; i < numGridRects; i++) {
+        auto gridRectBottomLeft = bottomLeft.withY(gridRectHeight * i).toFloat();
+        auto gridRectTopRight = bottomLeft.withX(bottomLeft.getX() + getLocalBounds().getWidth()).withY((gridRectHeight * i) + gridRectHeight).toFloat();
+        auto gridRect = juce::Rectangle<float>(gridRectBottomLeft, gridRectTopRight);
+        g.drawRect(gridRect);
+    }
+
+}
+
 void dBLevelMeterComponent::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
+    auto bounds = getLocalBounds().toFloat();
+    g.setColour(juce::Colours::grey);
+    g.fillRoundedRectangle(bounds, 5.f);
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    auto mappedLevel = juce::jmap(level,-6 * 8.f, +0.f ,0.f, static_cast<float>(getHeight()));
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    if (level >= 0.f) {
+        g.setColour(juce::Colours::red);
+    }
+    else {
+        g.setColour(juce::Colours::white);
+    }
 
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    g.fillRoundedRectangle(bounds.removeFromBottom(mappedLevel), 5.f);
 
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("dBLevelMeterComponent", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+    paintGridOverComponent(g);
 }
 
 void dBLevelMeterComponent::resized()

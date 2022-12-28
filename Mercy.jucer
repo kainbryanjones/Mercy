@@ -17,6 +17,10 @@
             file="Source/dBLevelMeterComponent.cpp"/>
       <FILE id="jtJ4Rx" name="dBLevelMeterComponent.h" compile="0" resource="0"
             file="Source/dBLevelMeterComponent.h"/>
+      <FILE id="unHtDf" name="StereoLevelMeterComponent.cpp" compile="1"
+            resource="0" file="Source/StereoLevelMeterComponent.cpp"/>
+      <FILE id="epFshl" name="StereoLevelMeterComponent.h" compile="0" resource="0"
+            file="Source/StereoLevelMeterComponent.h"/>
       <FILE id="ulIpeC" name="TitleComponent.cpp" compile="1" resource="0"
             file="Source/TitleComponent.cpp"/>
       <FILE id="ZearWb" name="TitleComponent.h" compile="0" resource="0"

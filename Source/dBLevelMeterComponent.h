@@ -24,6 +24,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void setLevelAndRepaint(float level);
+
+    void paintGridOverComponent(juce::Graphics&);
+
 private:
+
+    float level = 0.f;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (dBLevelMeterComponent)
 };
