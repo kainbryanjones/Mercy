@@ -7,10 +7,28 @@ be used as a project generation tool via the [Projucer](https://juce.com/discove
 which supports exporting projects for Xcode (macOS and iOS), Visual Studio, Android Studio,
 Code::Blocks and Linux Makefiles as well as containing a source code editor.
 
-## Mercy
-
+# Mercy
 Mercy is an audio plugin created using the JUCE framework. It is intended to be used as an example
 to learn the JUCE framework. Mercy covers everything from UI building to JUCE's dsp library. 
 
-Mercy is not intended to cover basic c++ topics and a basic understanding of c++ fundamentals is assumed.
-Mercy covers some basic digital signal processing(DSP), but advanced DSP is outside the scope of this project.
+The Mercy plugin consists of a high pass filter, low pass filter, Q factor controller, gain controller and
+a bypass button. 
+
+To learn from Mercy you should have an understanding of basic C++ and knowledge of how object orientated
+programming works. Mercy does use some more advanced topics of C++ such as unique pointers.
+It would also help to have some basic digital signal processing knowledge.
+
+# Topics Covered
+* JUCE DSP modules
+* The Component Class
+* Building Custom Components
+* Graphics
+* The Rectangle Class
+* Listeners and Broadcasters
+* The AudioProcessorValueTreeState Class and audio parameters
+* Smoothed Values
+* LookAndFeel
+
+# Footnote
+If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
+me at <contact.kainbryanjones@gmail.com>
