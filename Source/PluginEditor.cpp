@@ -25,6 +25,19 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	bypassButton.setDescription(juce::String("Bypass dsp"));
 
 	descLabel.setText("MERCY", juce::dontSendNotification);
+
+	auto outlineColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().outline);
+	auto fillColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().widgetBackground);
+	auto textColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().defaultText);
+
+
+	descLabel.setColour(juce::Label::ColourIds::outlineColourId, outlineColour);
+	//descLabel.setColour(juce::Label::ColourIds::backgroundColourId, fillColour);
+	descLabel.setColour(juce::Label::ColourIds::textColourId, textColour);
+	valueLabel.setColour(juce::Label::ColourIds::outlineColourId, outlineColour);
+	//valueLabel.setColour(juce::Label::ColourIds::backgroundColourId, fillColour);
+	valueLabel.setColour(juce::Label::ColourIds::textColourId, textColour);
+
 	descLabel.setFont(pluginFont);
 	valueLabel.setFont(pluginFont);
 
@@ -84,7 +97,7 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 
 		if (value >= 0.f) textFromValue.append(juce::String("+"), juce::String("+").length());
 		value <= minusInfGain ? textFromValue.append("-INF ", juce::String("-INF ").length()) : textFromValue.append(juce::String(value), juce::String(value).length());
-		
+
 		return textFromValue;
 	};
 
@@ -124,6 +137,11 @@ void MercyAudioProcessorEditor::paint(juce::Graphics& g)
 	g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 	g.setColour(juce::Colours::white);
 	g.setColour(juce::Colours::green);
+
+	auto filterParamBounds = juce::Rectangle<float>(lpfCutoffSlider.getBounds().getTopLeft().toFloat(), hpfResoSlider.getBounds().getBottomRight().toFloat());
+	auto fillColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().widgetBackground);
+	g.setColour(fillColour);
+	g.fillRect(filterParamBounds);
 }
 
 void MercyAudioProcessorEditor::resized()
@@ -172,7 +190,9 @@ void MercyAudioProcessorEditor::resized()
 
 	auto valueLabelBounds = labelBounds.removeFromBottom(labelBounds.getHeight() / 2);
 	valueLabel.setBounds(valueLabelBounds);
+	valueLabel.getFont().setHeight(valueLabel.getLocalBounds().getHeight());
 	descLabel.setBounds(labelBounds);
+	descLabel.getFont().setHeight(descLabel.getLocalBounds().getHeight()*5.f);
 
 	auto sliderTextBoxWidth = lpfCutoffSliderBounds.getWidth();
 
@@ -220,6 +240,15 @@ void MercyAudioProcessorEditor::sliderDragEnded(Slider* slider)
 {
 	valueLabel.setText("", juce::dontSendNotification);
 	valueLabel.repaint();
+}
+
+void MercyAudioProcessorEditor::paintOverChildren(juce::Graphics& g)
+{
+	auto filterParamBounds = juce::Rectangle<float>(lpfCutoffSlider.getBounds().getTopLeft().toFloat(), hpfResoSlider.getBounds().getBottomRight().toFloat());
+	auto outlineColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().outline);
+
+	g.setColour(outlineColour);
+	g.drawRect(filterParamBounds, 1.f);
 }
 
 void MercyAudioProcessorEditor::timerCallback()

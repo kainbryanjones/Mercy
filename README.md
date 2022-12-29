@@ -32,6 +32,7 @@ It would also help to have some basic digital signal processing knowledge.
 * The AudioProcessorValueTreeState Class
 * The LinearSmoothedValue Class
 * The LookAndFeel Class
+* Saving/Loading plugin state
 * Using Git With JUCE
 
 # Tutorials

@@ -35,6 +35,7 @@ public:
     void sliderDragStarted(juce::Slider*) override;
     void sliderDragEnded(juce::Slider*) override;
 
+    void paintOverChildren(juce::Graphics&) override;
 
 private:
     // This reference is provided as a quick way for your editor to

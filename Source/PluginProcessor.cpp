@@ -34,7 +34,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MercyAudioProcessor::createP
 	const auto lpfCutoffDefaultValue = frequencyRange.getRange().getEnd();
 	const auto hpfCutoffDefaultValue = frequencyRange.getRange().getStart();
 
-	const auto resoRange = juce::NormalisableRange<float>{ 0.1f, 10.0f, 1.f };
+	const auto resoRange = juce::NormalisableRange<float>{ 0.1f, 10.0f, 0.1f };
 	const float lpfResoDefaultValue = resoRange.getRange().getStart();
 	const float hpfResoDefaultValue = resoRange.getRange().getStart();
 
