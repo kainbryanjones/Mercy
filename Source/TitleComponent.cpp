@@ -62,7 +62,7 @@ void TitleComponent::paint (juce::Graphics& g)
 
     //modifiers change the title properties when the mouse is over the component
     //size modifier for title text
-    auto fontHeightModifier = mouseIsOverComponent ? 0.875 : 0.9;
+    auto fontHeightModifier = mouseIsOverComponent ? 0.825 : 0.85;
     //brightness modifier for title font
     auto brightnessModifier = mouseIsOverComponent ? 0.9 : 1;
 
