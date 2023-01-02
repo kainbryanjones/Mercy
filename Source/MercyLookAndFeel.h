@@ -24,7 +24,15 @@ public:
 	~MercyLookAndFeel() override;
 
 	void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override;
+    
+    void drawLinearSlider (Graphics& g, int x, int y, int width, int height,
+                           float sliderPos,
+                           float minSliderPos,
+                           float maxSliderPos,
+                           const Slider::SliderStyle style, Slider& slider) override;
 
+
+    
 	/*
 	* For each GUI widget there are a collection of unique colour ids which are used
 	* in the LookAndFeel's SetColour method. The id is an int value used to identify which part
