@@ -14,7 +14,7 @@
 //==============================================================================
 
 /**
- Most of the Mercy documentation is in the header file for this LookAndFeel class. You will find little comments in this .cpp file.
+ Most of the Mercy documentation is in the header file for this LookAndFeel class.
  The code you see below is (mostly) original JUCE code copied from the LookAndFeel classes version 1 - 4.
  To see the difference between this code and the original please reference the original JUCE code located within the JUCE modules folder or the JUCE github https://github.com/juce-framework/JUCE
  
@@ -25,9 +25,24 @@
  The best way to learn from the LookAndFeel methods is to mess around with the code and see the results on the screen for yourself. It's all well and good seeing the addCentredArc method and probably understanding what that does, but the best way to get a feel for what it does is
  to actually see the resullt.
  
+ Sidenote:
+ If you intend to overtide a draw method and build the code from the ground then a basic understand of trigonometry will go far. For people without the most mathematical backgrounds(like the developer of Mercy)
+ this can seem intimitading, so here are some useful topics along with some resources. Taking a bit of time to go over these topics will come in extremely handy and save a lot of faff.
+ # Funamental Topics
+ *  Triangles (SOH CAH TOA)
+ * Unit Circles (Pi)
+ * Trigonometric Function (Sin, Cos, Tan, ...)
+ * Angles (Degrees / Radians)
+ For an excellent all-in-1 resource for learning these concepts please refer to the playlist by The Organic Chemistry Tutor on YouTube https://www.youtube.com/playlist?list=PL0o_zxa4K1BVCB8iCVCGOES9pEF6byTMT
+ 
+ Another sidenote:
+ One brilliant thing about is JUCE(and C++) is that a lot of this low level mathematics has been done for you.
+ # References
+ *  JUCE Maths Modules : https://docs.juce.com/master/group__juce__core-maths.html
+ * JUCE Maths Constants : https://docs.juce.com/master/structMathConstants.html
+ * JUCE Degrees Helper Functions : https://docs.juce.com/master/classDecibels.html
+ * C++ Standard Maths(cmath) : https://cplusplus.com/reference/cmath/
  */
-
-
 
 MercyLookAndFeel::MercyLookAndFeel()
 {
@@ -203,9 +218,8 @@ void MercyLookAndFeel::drawLinearSlider (Graphics& g, int x, int y, int width, i
             maxPoint = { kx, ky };
         }
 
-        //EDITED HERE
-        auto thumbWidth = slider.getBounds().getWidth()*0.75f;
-        auto thumbHeight = thumbWidth / 8.f;
+        auto thumbWidth = slider.getBounds().getWidth()*0.75f; //EDIT
+        auto thumbHeight = thumbWidth / 8.f; //EDIT
 
         valueTrack.startNewSubPath (minPoint);
         valueTrack.lineTo (isThreeVal ? thumbPoint : maxPoint);
@@ -214,8 +228,7 @@ void MercyLookAndFeel::drawLinearSlider (Graphics& g, int x, int y, int width, i
 
         if (! isTwoVal)
         {
-            g.setColour (slider.findColour (Slider::thumbColourId));
-            //EDITED HERE
+            g.setColour (slider.findColour (Slider::thumbColourId)); //EDIT
             g.fillRoundedRectangle(Rectangle<float> (static_cast<float> (thumbWidth), static_cast<float> (thumbHeight)).withCentre (isThreeVal ? thumbPoint : maxPoint),1.f);
         }
 
