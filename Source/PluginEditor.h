@@ -18,7 +18,7 @@
 //==============================================================================
 /**
 */
-class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener, juce::Timer
+class MercyAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener, juce::Timer, juce::ComboBox::Listener
 {
 public:
     MercyAudioProcessorEditor (MercyAudioProcessor&);
@@ -36,6 +36,7 @@ public:
     void sliderDragEnded(juce::Slider*) override;
 
     void paintOverChildren(juce::Graphics&) override;
+    void comboBoxChanged (juce::ComboBox *comboBoxThatHasChanged) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -44,6 +45,9 @@ private:
 
     juce::Label descLabel, valueLabel;
     juce::Font pluginFont;
+    
+    juce::ComboBox colourSchemeComboBox;
+    juce::StringArray colourSchemeItemList;
 
     juce::Slider lpfCutoffSlider, hpfCutoffSlider, lpfResoSlider, hpfResoSlider, gainSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lpfCutoffSliderAttatchment, hpfCutoffSliderAttatchment, lpfResoSliderAttatchment, hpfResoSliderAttatchment, gainSliderAttatchment;

@@ -48,13 +48,10 @@ MercyLookAndFeel::MercyLookAndFeel()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-
-    setColourScheme(darkColourScheme);
-
-    setColour(ResizableWindow::backgroundColourId, getCurrentColourScheme().getUIColour(getCurrentColourScheme().windowBackground));
-
-    setColour(uiColourIds::titleComponentTextColourId, getCurrentColourScheme().getUIColour(getCurrentColourScheme().defaultText));
-    setColour(uiColourIds::titleComponentBackgroundColourId, getCurrentColourScheme().getUIColour(getCurrentColourScheme().widgetBackground));
+    
+    setColourScheme(getLightColourScheme());
+    
+//    setColour(ResizableWindow::backgroundColourId, getCurrentColourScheme().getUIColour(getCurrentColourScheme().windowBackground));
 
 }
 

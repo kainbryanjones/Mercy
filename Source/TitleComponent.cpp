@@ -52,37 +52,39 @@ void TitleComponent::mouseUp(const juce::MouseEvent& event) {
 
 void TitleComponent::paint (juce::Graphics& g)
 {
-    //boolean used to represent if the mouse is hovering over the title component
-    auto mouseIsOverComponent = isMouseOver(true);
-
-    //colour of the title font from lookandfeel
-    auto fontColour = getLookAndFeel().findColour(MercyLookAndFeel::uiColourIds::titleComponentTextColourId);
-    //background colour of title component from lookandfeel
-    auto backgroundColour = getLookAndFeel().findColour(MercyLookAndFeel::uiColourIds::titleComponentBackgroundColourId);
-
-    //modifiers change the title properties when the mouse is over the component
-    //size modifier for title text
-    auto fontHeightModifier = mouseIsOverComponent ? 0.825 : 0.85;
-    //brightness modifier for title font
-    auto brightnessModifier = mouseIsOverComponent ? 0.9 : 1;
-
-    //set colour from lookandfeel
-    g.setColour(backgroundColour);
-    //fill the entire bounds with the background colour
-    g.fillRect(getLocalBounds());
-
-    //set colour from lookandfeel
-    g.setColour(fontColour.withBrightness(brightnessModifier));
-
-    //set font to the typeface created in the constructor
-    //if the argument passed to setFont is a number then this changes the current font's height
-    //here we use getLocalBounds().getHeight() to get the component height and multiply that by the
-    //height modifier
-    g.setFont(this->font);
-    g.setFont(getLocalBounds().getHeight() * fontHeightModifier);
-
-    //then we draw the text to fit within the local bounds of the component
-    g.drawFittedText (this->title, getLocalBounds(), juce::Justification::centred, false); 
+    if (auto laf4 = dynamic_cast<juce::LookAndFeel_V4*> (&getLookAndFeel())){
+        //boolean used to represent if the mouse is hovering over the title component
+        auto mouseIsOverComponent = isMouseOver(true);
+        
+        //colour of the title font from lookandfeel
+        auto fontColour = laf4->getCurrentColourScheme().getUIColour(laf4->getCurrentColourScheme().defaultFill);
+        //background colour of title component from lookandfeel
+        auto backgroundColour = laf4->getCurrentColourScheme().getUIColour(laf4->getCurrentColourScheme().outline);
+        
+        //modifiers change the title properties when the mouse is over the component
+        //size modifier for title text
+        auto fontHeightModifier = mouseIsOverComponent ? 0.825 : 0.85;
+        //brightness modifier for title font
+        auto brightnessModifier = mouseIsOverComponent ? 0.9 : 1;
+        
+        //set colour from lookandfeel
+        g.setColour(backgroundColour);
+        //fill the entire bounds with the background colour
+        g.fillRect(getLocalBounds());
+        
+        //set colour from lookandfeel
+        g.setColour(fontColour.withBrightness(brightnessModifier));
+        
+        //set font to the typeface created in the constructor
+        //if the argument passed to setFont is a number then this changes the current font's height
+        //here we use getLocalBounds().getHeight() to get the component height and multiply that by the
+        //height modifier
+        g.setFont(this->font);
+        g.setFont(getLocalBounds().getHeight() * fontHeightModifier);
+        
+        //then we draw the text to fit within the local bounds of the component
+        g.drawFittedText (this->title, getLocalBounds(), juce::Justification::centred, false);
+    }
 }
 
 void TitleComponent::resized()

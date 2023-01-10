@@ -11,7 +11,7 @@
 
 //==============================================================================
 MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
-	: AudioProcessorEditor(&p), audioProcessor(p), titleComponent(juce::String("www.halogensband.com"), juce::URL("www.halogensband.com")) {
+: AudioProcessorEditor(&p), audioProcessor(p), colourSchemeItemList("Dark Theme","Light Theme"), titleComponent(juce::String("www.halogensband.com"), juce::URL("www.halogensband.com")) {
 
 	setLookAndFeel(&mercyLookAndFeel);
 
@@ -29,7 +29,6 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	auto outlineColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().outline);
 	auto fillColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().widgetBackground);
 	auto textColour = mercyLookAndFeel.getCurrentColourScheme().getUIColour(mercyLookAndFeel.getCurrentColourScheme().defaultText);
-
 
 	descLabel.setColour(juce::Label::ColourIds::outlineColourId, outlineColour);
 	//descLabel.setColour(juce::Label::ColourIds::backgroundColourId, fillColour);
@@ -54,6 +53,8 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 	addAndMakeVisible(valueLabel);
 	addAndMakeVisible(descLabel);
 	addAndMakeVisible(bypassButton);
+    addAndMakeVisible(colourSchemeComboBox);
+        
 
 	for (auto child : getChildren())
 	{
@@ -98,10 +99,24 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 		if (value >= 0.f) textFromValue.append(juce::String("+"), juce::String("+").length());
 		value <= minusInfGain ? textFromValue.append("-INF ", juce::String("-INF ").length()) : textFromValue.append(juce::String(value), juce::String(value).length());
 
-		return textFromValue;
+        return textFromValue;
 	};
+        
+    std::function colourSchemeComboBoxChangedFunction = [this](){
+        if (auto laf4 = dynamic_cast<juce::LookAndFeel_V4*> (&getLookAndFeel()))
+        {
+            auto colourScheme = colourSchemeComboBox.getSelectedIdAsValue() == 1 ? laf4->getGreyColourScheme() : laf4->getLightColourScheme();
+            laf4->setColourScheme(colourScheme);
+            repaint();
+        }
+    };
+    
 
+    colourSchemeComboBox.addItemList(colourSchemeItemList, 1);
+    colourSchemeComboBox.setSelectedId(1);
+    
 	gainSlider.textFromValueFunction = gainSliderTextFromValueFunction;
+    colourSchemeComboBox.onChange = colourSchemeComboBoxChangedFunction;
 
 	lpfCutoffSlider.setTextValueSuffix("Hz");
 	hpfCutoffSlider.setTextValueSuffix("Hz");
@@ -187,6 +202,9 @@ void MercyAudioProcessorEditor::resized()
 	lpfResoSlider.setBounds(lpfResoSliderBounds);
 	hpfCutoffSlider.setBounds(hpfCutoffSliderBounds);
 	hpfResoSlider.setBounds(hpfResoSliderBounds);
+    
+    auto comboBoxBounds = labelBounds.removeFromTop(labelBounds.getHeight() / 4);
+    colourSchemeComboBox.setBounds(comboBoxBounds);
 
 	auto valueLabelBounds = labelBounds.removeFromBottom(labelBounds.getHeight() / 2);
 	valueLabel.setBounds(valueLabelBounds);
@@ -258,3 +276,8 @@ void MercyAudioProcessorEditor::timerCallback()
 
 	levelMeter.setLevelsAndRepaint(leftRMS, rightRMS);
 }
+
+void MercyAudioProcessorEditor::comboBoxChanged (juce::ComboBox *comboBoxThatHasChanged){
+    
+}
+

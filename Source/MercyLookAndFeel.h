@@ -48,8 +48,8 @@ public:
 		titleComponentBackgroundColourId = uint32_t(1),
 	};
 
-	ColourScheme lightColourScheme = { 0xffefefef, 0xffffffff, 0xffffffff, 0xffdddddd, 0xff000000, 0xffa9a9a9,0xffffffff, 0xff42a2c8, 0xff000000 };
-	ColourScheme darkColourScheme = { 0xff323e44, 0xff263238, 0xff323e44, 0xff8e989b, 0xffffffff, 0xff42a2c8, 0xffffffff, 0xff181f22, 0xffffffff };
+	//ColourScheme lightColourScheme = { 0xffefefef, 0xffffffff, 0xffffffff, 0xffdddddd, 0xff000000, 0xffa9a9a9,0xffffffff, 0xff42a2c8, 0xff000000 };
+	//ColourScheme darkColourScheme = { 0xff323e44, 0xff263238, 0xff323e44, 0xff8e989b, 0xffffffff, 0xff42a2c8, 0xffffffff, 0xff181f22, 0xffffffff };
 
 private:
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MercyLookAndFeel)
