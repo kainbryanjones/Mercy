@@ -255,10 +255,10 @@ void MercyAudioProcessorEditor::paintOverChildren(juce::Graphics& g)
 
 void MercyAudioProcessorEditor::timerCallback()
 {
-	auto leftRMS = audioProcessor.getRMSLevel(0);
-	auto rightRMS = audioProcessor.getRMSLevel(1);
+	auto leftSmoothedRMS = audioProcessor.getSmoothedRMSLevel(0);
+	auto rightSmoothedRMS = audioProcessor.getSmoothedRMSLevel(1);
 
-	levelMeter.setLevelsAndRepaint(leftRMS, rightRMS);
+	levelMeter.setLevelsAndRepaint(leftSmoothedRMS, rightSmoothedRMS);
 }
 
 void MercyAudioProcessorEditor::comboBoxChanged (juce::ComboBox *comboBoxThatHasChanged){
