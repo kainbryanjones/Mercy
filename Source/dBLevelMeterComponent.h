@@ -30,7 +30,7 @@ public:
 
 private:
 
-    float level = 0.f;
-
+    juce::LinearSmoothedValue<float> linearSmoothedLevel;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (dBLevelMeterComponent)
 };

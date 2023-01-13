@@ -93,10 +93,10 @@ float MercyAudioProcessor::getRMSLevel(const int channel) const
 	jassert(channel == 0 || channel == 1);
 
 	if (channel == 0) {
-		return smoothedLevelLeft.getCurrentValue();
+        return rmsLevelLeft;
 	}
 	if (channel == 1) {
-		return smoothedLevelRight.getCurrentValue();
+        return rmsLevelRight;
 	}
 	return 0.f;
 }
@@ -280,19 +280,6 @@ void MercyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
 
 		rmsLevelLeft = juce::Decibels::gainToDecibels(buffer.getRMSLevel(leftChannelIndex, startSample, numSamples));
 		rmsLevelRight = juce::Decibels::gainToDecibels(buffer.getRMSLevel(rightChannelIndex, startSample, numSamples));
-
-		if (rmsLevelLeft < smoothedLevelLeft.getCurrentValue())
-			smoothedLevelLeft.setTargetValue(rmsLevelLeft);
-		else
-			smoothedLevelLeft.setCurrentAndTargetValue(rmsLevelLeft);
-
-
-		if (rmsLevelRight < smoothedLevelRight.getCurrentValue())
-			smoothedLevelRight.setTargetValue(rmsLevelRight);
-		else
-			smoothedLevelRight.setCurrentAndTargetValue(rmsLevelRight);
-
-
 
 }
 

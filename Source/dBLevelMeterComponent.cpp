@@ -16,6 +16,7 @@ dBLevelMeterComponent::dBLevelMeterComponent()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
+    linearSmoothedLevel.setCurrentAndTargetValue(0.f);
 }
 
 dBLevelMeterComponent::~dBLevelMeterComponent()
@@ -23,7 +24,11 @@ dBLevelMeterComponent::~dBLevelMeterComponent()
 }
 
 void dBLevelMeterComponent::setLevelAndRepaint(float level) {
-    this->level = level;
+    if(level > linearSmoothedLevel.getCurrentValue())
+        this->linearSmoothedLevel.setCurrentAndTargetValue(level);
+    else
+        this->linearSmoothedLevel.setTargetValue(level);
+    
     repaint();
 }
 
@@ -50,9 +55,9 @@ void dBLevelMeterComponent::paint (juce::Graphics& g)
     g.setColour(juce::Colours::grey);
     g.fillRoundedRectangle(bounds, 5.f);
 
-    auto mappedLevel = juce::jmap(level,-6 * 8.f, +0.f ,0.f, static_cast<float>(getHeight()));
+    auto mappedLevel = juce::jmap(linearSmoothedLevel.getCurrentValue(),-6 * 8.f, +0.f ,0.f, static_cast<float>(getHeight()));
 
-    if (level >= 0.f) {
+    if (linearSmoothedLevel.getCurrentValue() >= 0.f) {
         g.setColour(juce::Colours::red);
     }
     else {
