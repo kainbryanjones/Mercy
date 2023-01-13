@@ -5,6 +5,8 @@ to learn the JUCE framework. Mercy covers everything from UI building to JUCE's 
 The Mercy plugin consists of a high pass filter, low pass filter, Q factor controller, gain controller and
 a bypass button. 
 
+![](https://i.imgur.com/WQXUstg.png)
+
 To learn from Mercy you should have an understanding of basic C++ and knowledge of how object orientated
 and event driven programming works. Mercy does use some more advanced topics of C++ such as unique pointers.
 It would also help to have some basic digital signal processing knowledge.
