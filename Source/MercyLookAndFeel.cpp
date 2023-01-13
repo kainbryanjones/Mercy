@@ -157,6 +157,10 @@ void MercyLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, in
     g.fillRoundedRectangle(Rectangle<float>(thumbWidth , thumbWidth).withCentre(slider.getLocalBounds().getCentre().toFloat()), 4.f); //EDIT
 }
 
+Font MercyLookAndFeel::getComboBoxFont (ComboBox& box)
+{
+    return { jmax (16.0f, (float) box.getHeight() * 0.65f) };
+}
 
 
 

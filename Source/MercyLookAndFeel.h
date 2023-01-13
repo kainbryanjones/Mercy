@@ -30,8 +30,8 @@ public:
                            float minSliderPos,
                            float maxSliderPos,
                            const Slider::SliderStyle style, Slider& slider) override;
-
-
+    
+    Font getComboBoxFont (ComboBox& box) override;
     
 	/*
 	* For each GUI widget there are a collection of unique colour ids which are used
