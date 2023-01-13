@@ -12,6 +12,8 @@ and event driven programming works. Mercy does use some more advanced topics of 
 It would also help to have some basic digital signal processing knowledge.
 
 # Topics Covered
+* <h3> Default JUCE Plugin File </h3>
+When you first create a JUCE plugin there will be four files by default which are PluginProcessor.cpp / .h and PluginEditor.cpp / .h Mercy documents what these two classes do and how to use them efficiently.
 * <h3>JUCE DSP modules</h3>
 JUCE provides multiple classes capable of providing basic Digital Signal Processing. For a full list of all modules [click here](https://docs.juce.com/master/group__juce__dsp-processors.html)
 * <h3>The Component Class</h3>
