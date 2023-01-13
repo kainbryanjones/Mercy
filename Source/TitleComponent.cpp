@@ -80,7 +80,7 @@ void TitleComponent::paint (juce::Graphics& g)
         //here we use getLocalBounds().getHeight() to get the component height and multiply that by the
         //height modifier
         g.setFont(this->font);
-        g.setFont(getLocalBounds().getHeight() * fontHeightModifier);
+        //g.setFont(getLocalBounds().getHeight() * fontHeightModifier);
         
         //then we draw the text to fit within the local bounds of the component
         g.drawFittedText (this->title, getLocalBounds(), juce::Justification::centred, false);

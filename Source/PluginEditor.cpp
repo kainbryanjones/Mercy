@@ -11,7 +11,7 @@
 
 //==============================================================================
 MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
-: AudioProcessorEditor(&p), audioProcessor(p), colourSchemeItemList("Dark Theme","Light Theme"), titleComponent(juce::String("www.halogensband.com"), juce::URL("www.halogensband.com")) {
+: AudioProcessorEditor(&p), audioProcessor(p), colourSchemeItemList("Dark Theme","Light Theme"), titleComponent(juce::String("www.halogensband.com"), juce::URL("https://www.halogensband.com")) {
 
 	setLookAndFeel(&mercyLookAndFeel);
 
@@ -58,8 +58,7 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 
 	for (auto child : getChildren())
 	{
-		auto slider = dynamic_cast<juce::Slider*>(child);
-		if (slider) {
+		if (auto slider = dynamic_cast<juce::Slider*>(child)) {
 			slider->addListener(this);
 			slider->setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 		}
@@ -111,12 +110,12 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
         }
     };
     
-
     colourSchemeComboBox.addItemList(colourSchemeItemList, 1);
     colourSchemeComboBox.setSelectedId(1);
+    colourSchemeComboBox.setJustificationType(juce::Justification::centred);
+    colourSchemeComboBox.onChange = colourSchemeComboBoxChangedFunction;
     
 	gainSlider.textFromValueFunction = gainSliderTextFromValueFunction;
-    colourSchemeComboBox.onChange = colourSchemeComboBoxChangedFunction;
 
 	lpfCutoffSlider.setTextValueSuffix("Hz");
 	hpfCutoffSlider.setTextValueSuffix("Hz");
@@ -128,8 +127,8 @@ MercyAudioProcessorEditor::MercyAudioProcessorEditor(MercyAudioProcessor& p)
 
 	addMouseListener(this, true);
 
-	auto minWidth = 400;
-	auto minHeight = 200;
+	auto minWidth = 600;
+	auto minHeight = 300;
 	auto maxWidth = minWidth * 2;
 	auto maxHeight = minHeight * 2;
 	auto ratio = float(minWidth / minHeight);
@@ -162,30 +161,16 @@ void MercyAudioProcessorEditor::paint(juce::Graphics& g)
 void MercyAudioProcessorEditor::resized()
 {
 
-	//area represents the bounds of the entire plugin
-	//this object is used to keep track of what area remains where
-	//we can place child components, such as sliders and buttons
 	auto area = getLocalBounds();
 
-	//the title component spans the entire width of the component
-	//we can use area.getHeight() to get the height of the remaining area
-	//here is the first call so the remaining area is all of the local bounds
-	//however we use area.removeFromBottom to subtract a Rectangle object of height 1/10th of the total area
-	//this means that every call of area.getHeight() from now on will be of the newly shrunk area
-	//any call of removeFromBottom / removeFromTop / removeFromLeft / removeFromRight with shrink the area even further
-	//notice that this rectangle is not a global object this is explained in the paint method
-	auto titleComponentRect = area.removeFromBottom(area.getHeight() / 10);
 
-	//now we can use a new inner-rectangle "filterParameterBounds" to place the filter parameters
-	//after this call area is 1/10th less tall and 1/3rd less wide from when it was originally created
-	//notice the .toFloat() method this is because the global object filterParameterBounds was declared
-	//as a juce::Rectangle<float> object
 	auto filterAndLabelBounds = area.removeFromLeft(area.getWidth() / 3);
 	auto filterParameterBounds = filterAndLabelBounds.removeFromTop(2 * filterAndLabelBounds.getHeight() / 3).toFloat();
 	auto labelBounds = filterAndLabelBounds;
 
 	auto gainSliderBounds = area.removeFromLeft(area.getWidth() / 2).toFloat();
 	auto dbLevelMeterBounds = area.toFloat();
+    auto titleComponentRect = dbLevelMeterBounds.removeFromBottom(dbLevelMeterBounds.getHeight() / 10).toNearestInt();
 
 	auto parameterSliderHeight = filterParameterBounds.getHeight() / 2;
 	auto parameterSliderWidth = filterParameterBounds.getWidth() / 2;
@@ -203,20 +188,19 @@ void MercyAudioProcessorEditor::resized()
 	hpfCutoffSlider.setBounds(hpfCutoffSliderBounds);
 	hpfResoSlider.setBounds(hpfResoSliderBounds);
     
-    auto comboBoxBounds = labelBounds.removeFromTop(labelBounds.getHeight() / 4);
+    auto comboBoxBounds = labelBounds.removeFromTop(labelBounds.getHeight() / 4 );
     colourSchemeComboBox.setBounds(comboBoxBounds);
 
 	auto valueLabelBounds = labelBounds.removeFromBottom(labelBounds.getHeight() / 2);
 	valueLabel.setBounds(valueLabelBounds);
-	valueLabel.getFont().setHeight(valueLabel.getLocalBounds().getHeight());
+    valueLabel.setFont(valueLabel.getLocalBounds().getHeight() * 0.65f);
 	descLabel.setBounds(labelBounds);
-	descLabel.getFont().setHeight(descLabel.getLocalBounds().getHeight()*5.f);
+    descLabel.setFont(descLabel.getLocalBounds().getHeight() * 0.65f);
 
 	auto sliderTextBoxWidth = lpfCutoffSliderBounds.getWidth();
 
 	gainSlider.setBounds(gainSliderBounds.toNearestInt().reduced(gainSliderBounds.getWidth() / 8.f, 0.f));
 
-	//bypassButton.setBounds(bypassButtonBounds.toNearestInt());
 	levelMeter.setBounds(dbLevelMeterBounds.toNearestInt());
 
 	titleComponent.setBounds(titleComponentRect);
@@ -226,7 +210,7 @@ void MercyAudioProcessorEditor::mouseEnter(const juce::MouseEvent& event)
 {
 	auto component = event.eventComponent;
 
-	if (this->getChildren().contains(component)) {
+	if (this->getChildren().contains(component) && !juce::String().equalsIgnoreCase(component->getDescription())) {
 
 		auto descriptionLabelText = juce::String(event.eventComponent->getDescription());
 
