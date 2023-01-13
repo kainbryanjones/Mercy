@@ -34,9 +34,9 @@ Most DAWs provide plugin presets as well as persistent data which will need to b
 This is not a git tutorial, but a few pointers on how to create a git repository and what to add to .gitignore for JUCE projects.
 
 # Tutorials
-Mercy will be accompanied by a series of tutorials on my band's blog. These will be published by the end of January and will be linked
+Mercy will be accompanied by a series of tutorials on my blog. These will be published by the end of January and will be linked
 here when available.
 
 # Footnote
 If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
-me at <contact.kainbryanjones@gmail.com>
+me at <contact.kainbryanjones@gmail.com> or better yet just fork the project!
