@@ -7,9 +7,7 @@ a bypass button.
 
 ![](https://i.imgur.com/WQXUstg.png)
 
-To learn from Mercy you should have an understanding of basic C++ and knowledge of how object orientated
-and event driven programming works. Mercy does use some more advanced topics of C++ such as unique pointers.
-It would also help to have some basic digital signal processing knowledge.
+The best way to learn JUCE from this project is to use the tutorials linked at the bottom of this README.md. Mercy has lots of commented code but no clear direct path for where to start reading. These tutorials have been created to show you how Mercy was created and where to start when it comes to building your own plugins. The topics below apply to both these tutorials and the Mercy source code.
 
 # Topics Covered
 * <h3> Default JUCE Plugin File </h3>
