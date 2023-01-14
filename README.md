@@ -34,6 +34,7 @@ In audio is important to have smoothed values which is a value that doesn't imme
 Most DAWs provide plugin presets as well as persistent data which will need to be loaded back up when a plugin is reopened. In JUCE this is done using XML, which is a very simple markup language. If you don't know XML it takes no more than ten minutes to get to grips with the basics. W3Schools.org has an excellent tutorial on this. [Click here](https://www.w3schools.com/xml/) for that tutorial.
 * <h3>Using Git With JUCE</h3>
 This is not a git tutorial, but a few pointers on how to create a git repository and what to add to .gitignore for JUCE projects.
+* <h3>And more...</h3>
 
 # Tutorials
 Mercy will be accompanied by a series of tutorials on my blog. These will be published by the end of January and will be linked
