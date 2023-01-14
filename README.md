@@ -39,6 +39,6 @@ This is not a git tutorial, but a few pointers on how to create a git repository
 Mercy will be accompanied by a series of tutorials on my blog. These will be published by the end of January and will be linked
 here when available.
 
-# Footnote
+# Get Involved
 If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
-me at <contact.kainbryanjones@gmail.com> or better yet just fork the project!
+me at <contact.kainbryanjones@gmail.com> or better yet just fork the project! Be sure to report any issues before making any major changes!
