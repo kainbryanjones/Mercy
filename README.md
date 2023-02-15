@@ -10,14 +10,13 @@ a bypass button.
 The best way to learn JUCE from this project is to use the tutorials linked at the bottom of this README.md. Mercy has lots of commented code but no clear direct path for where to start reading. These tutorials have been created to show you how Mercy was created and where to start when it comes to building your own plugins. The topics below apply to both these tutorials and the Mercy source code.
 
 # Tutorials
-JUCE Tutorials:
-'Intro': https://www.halogensband.com/#/blog/post/5847295558908463015
-'The Plugin Editor and Plugin Processor': https://www.halogensband.com/#/blog/post/338754960662131223
-'JUCE Components': https://www.halogensband.com/#/blog/post/7487070260373707445
-'LookAndFeel': https://www.halogensband.com/#/blog/post/3996629821312580126
-'Broadcasters, Listeners and User Input': https://www.halogensband.com/#/blog/post/7087728485578978531
-'Audio Parameters And The AudioProcessorValueTreeState Class': https://www.halogensband.com/#/blog/post/1487170710786625779
-'JUCE DSP Modules': https://www.halogensband.com/#/blog/post/1914372000362911574
+* 'Intro': https://www.halogensband.com/#/blog/post/5847295558908463015
+* 'The Plugin Editor and Plugin Processor': https://www.halogensband.com/#/blog/post/338754960662131223
+* 'JUCE Components': https://www.halogensband.com/#/blog/post/7487070260373707445
+* 'LookAndFeel': https://www.halogensband.com/#/blog/post/3996629821312580126
+* 'Broadcasters, Listeners and User Input': https://www.halogensband.com/#/blog/post/7087728485578978531
+* 'Audio Parameters And The AudioProcessorValueTreeState Class': https://www.halogensband.com/#/blog/post/1487170710786625779
+* 'JUCE DSP Modules': https://www.halogensband.com/#/blog/post/1914372000362911574
 
 # Topics Covered
 * <h3> Default JUCE Plugin File </h3>
