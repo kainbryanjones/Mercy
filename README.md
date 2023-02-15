@@ -9,6 +9,16 @@ a bypass button.
 
 The best way to learn JUCE from this project is to use the tutorials linked at the bottom of this README.md. Mercy has lots of commented code but no clear direct path for where to start reading. These tutorials have been created to show you how Mercy was created and where to start when it comes to building your own plugins. The topics below apply to both these tutorials and the Mercy source code.
 
+# Tutorials
+JUCE Tutorials:
+'Intro': https://www.halogensband.com/#/blog/post/5847295558908463015
+'The Plugin Editor and Plugin Processor': https://www.halogensband.com/#/blog/post/338754960662131223
+'JUCE Components': https://www.halogensband.com/#/blog/post/7487070260373707445
+'LookAndFeel': https://www.halogensband.com/#/blog/post/3996629821312580126
+'Broadcasters, Listeners and User Input': https://www.halogensband.com/#/blog/post/7087728485578978531
+'Audio Parameters And The AudioProcessorValueTreeState Class': https://www.halogensband.com/#/blog/post/1487170710786625779
+'JUCE DSP Modules': https://www.halogensband.com/#/blog/post/1914372000362911574
+
 # Topics Covered
 * <h3> Default JUCE Plugin File </h3>
 When you first create a JUCE plugin there will be four files by default which are PluginProcessor.cpp / .h and PluginEditor.cpp / .h Mercy documents what these two classes do and how to use them efficiently.
@@ -33,10 +43,6 @@ Most DAWs provide plugin presets as well as persistent data which will need to b
 * <h3>Using Git With JUCE</h3>
 This is not a git tutorial, but a few pointers on how to create a git repository and what to add to .gitignore for JUCE projects.
 * <h3>And more...</h3>
-
-# Tutorials
-Mercy will be accompanied by a series of tutorials on my blog. These will be published by the end of January and will be linked
-here when available.
 
 # Get Involved
 If you feel like you could improve Mercy or I have made an error somewhere then feel free to contact
