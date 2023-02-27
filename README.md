@@ -1,13 +1,9 @@
 # Mercy
-Mercy is an audio plugin created using the JUCE framework. It is intended to be used as an example
-to learn the JUCE framework. Mercy covers everything from UI building to JUCE's dsp library. 
+Mercy is a JUCE-based audio plugin designed to serve as a practical example for learning the JUCE framework. It covers various aspects, including UI building and JUCE's dsp library. The plugin is composed of a bypass button, gain controller, high pass filter, low pass filter, and Q factor controller. While the source code for Mercy contains plenty of commented code, it may not provide a clear starting point for learning. 
 
-The Mercy plugin consists of a high pass filter, low pass filter, Q factor controller, gain controller and
-a bypass button. 
+Therefore, the tutorial links in the README.md file are highly recommended. They have been developed to teach users how to create their own plugins and to provide a clear starting point for learning the framework. These tutorials cover topics that apply to both Mercy's source code and the tutorials themselves.
 
 ![](https://i.imgur.com/WQXUstg.png)
-
-The best way to learn JUCE from this project is to use the tutorials linked at the bottom of this README.md. Mercy has lots of commented code but no clear direct path for where to start reading. These tutorials have been created to show you how Mercy was created and where to start when it comes to building your own plugins. The topics below apply to both these tutorials and the Mercy source code.
 
 # Tutorials
 * 'Intro': https://www.halogensband.com/#/blog/post/5847295558908463015
